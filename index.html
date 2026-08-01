@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+    <title>Dr. Pedro Hernández - Consultorio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        :root{--pri:#0c2d48;--sec:#145374;--acc:#2e8b57;--gold:#c9a227;--bg:#f0f4f8;--card:#fff;--txt:#1a1a2e;--txtl:#6c7a89;--bdr:#dce3ea;--dng:#e74c3c;--wa:#25D366}
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
+        body{background:var(--bg);color:var(--txt);min-height:100vh}
+        .hdr{background:linear-gradient(135deg,var(--pri),var(--sec));padding:15px;display:flex;align-items:center;gap:15px;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+        .hdr-logo{width:70px;height:70px;border-radius:50%;border:3px solid var(--gold);background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;font-size:28px;color:var(--sec)}
+        .hdr-info{flex:1;min-width:0}
+        .hdr-info .nm{color:#fff;font-size:18px;font-weight:800}
+        .hdr-info .sp{color:var(--gold);font-size:13px;font-weight:600;margin-top:2px}
+        .hdr-info .sc{color:rgba(255,255,255,.8);font-size:11px;margin-top:3px}
+        .hdr-info .ph{display:inline-flex;align-items:center;gap:5px;background:var(--wa);color:#fff;padding:3px 12px;border-radius:20px;font-size:12px;font-weight:700;margin-top:5px}
+        .nav{display:flex;background:#fff;border-bottom:2px solid var(--bdr);overflow-x:auto}
+        .nb{flex:1;padding:12px 8px;border:none;background:transparent;font-size:11px;font-weight:700;color:var(--txtl);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;border-bottom:3px solid transparent;min-width:72px}
+        .nb i{font-size:17px}.nb.act{color:var(--acc);border-bottom-color:var(--acc);background:rgba(46,139,87,.05)}
+        .pg{display:none;padding:15px;padding-bottom:30px;animation:fi .3s ease}.pg.act{display:block}
+        @keyframes fi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+        .cd{background:var(--card);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:0 2px 12px rgba(0,0,0,.06);border:1px solid var(--bdr)}
+        .ct{font-size:16px;font-weight:700;color:var(--sec);margin-bottom:12px;display:flex;align-items:center;gap:8px}.ct i{color:var(--acc)}
+        .fg{margin-bottom:14px}.fg label{display:block;font-size:13px;font-weight:700;color:var(--txtl);margin-bottom:4px}
+        .fg input,.fg textarea,.fg select{width:100%;padding:11px 14px;border:1.5px solid var(--bdr);border-radius:10px;font-size:15px;background:#fafbfc;font-family:inherit;color:var(--txt)}
+        .fg input:focus,.fg textarea:focus{border-color:var(--acc);outline:none;box-shadow:0 0 0 3px rgba(46,139,87,.1)}
+        .fr{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+        .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 24px;border:none;border-radius:50px;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s}.btn:active{transform:scale(.97)}
+        .bp{background:var(--acc);color:#fff;box-shadow:0 4px 15px rgba(46,139,87,.3)}
+        .bw{background:var(--wa);color:#fff;box-shadow:0 4px 15px rgba(37,211,102,.3)}
+        .bd{background:var(--dng);color:#fff}
+        .bg{background:var(--gold);color:#fff}
+        .bf{width:100%}.bs{padding:8px 16px;font-size:12px}
+        .ds{display:flex;gap:8px;overflow-x:auto;padding:5px 0;margin-bottom:15px}
+        .db{flex:0 0 auto;min-width:68px;padding:10px 8px;border:2px solid var(--bdr);border-radius:12px;background:#fff;text-align:center;cursor:pointer;transition:all .2s}
+        .db .dn{font-size:11px;color:var(--txtl);font-weight:600;text-transform:uppercase}
+        .db .dl{font-size:20px;font-weight:800;color:var(--txt);margin-top:2px}
+        .db .dm{font-size:10px;color:var(--txtl)}
+        .db.sel{border-color:var(--acc);background:rgba(46,139,87,.08)}.db.sel .dl{color:var(--acc)}
+        .db.dis{opacity:.35;cursor:not-allowed}
+        .sg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+        .sb{padding:10px 6px;border:2px solid var(--bdr);border-radius:10px;background:#fff;font-size:14px;font-weight:700;cursor:pointer;text-align:center;color:var(--txt);transition:all .2s}
+        .sb.sel{border-color:var(--acc);background:var(--acc);color:#fff}
+        .sb.tkn{background:#f5f5f5;color:#bbb;border-color:#eee;cursor:not-allowed;text-decoration:line-through}
+        .sl{font-size:13px;font-weight:700;color:var(--txtl);margin-top:12px;display:flex;align-items:center;gap:6px}.sl i{color:var(--gold)}
+        .ac{background:#fff;border-radius:12px;padding:14px;margin-bottom:10px;border-left:4px solid var(--acc);box-shadow:0 1px 6px rgba(0,0,0,.05)}
+        .ac.pend{border-left-color:var(--gold)}.ac.conf{border-left-color:var(--acc)}.ac.canc{border-left-color:var(--dng);opacity:.6}.ac.nconf{border-left-color:#e67e22}
+        .ac .at{font-size:18px;font-weight:800;color:var(--sec)}.ac .ap{font-size:15px;font-weight:600;margin-top:4px}.ac .ad{font-size:12px;color:var(--txtl);margin-top:2px}
+        .as{display:inline-block;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-top:6px}
+        .as.pend{background:#fef3cd;color:#856404}.as.conf{background:#d4edda;color:#155724}.as.canc{background:#f8d7da;color:#721c24}.as.nconf{background:#ffe8cc;color:#856404}
+        .aa{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}.aa button{padding:5px 10px;border:none;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;color:#fff}
+        .sbx{display:flex;align-items:center;gap:8px;padding:8px 12px;background:#fff;border-radius:30px;border:1.5px solid var(--bdr);margin-bottom:12px}
+        .sbx i{color:var(--txtl)}.sbx input{flex:1;border:none;outline:none;font-size:14px;background:transparent}
+        .eh{display:flex;align-items:center;gap:12px;margin-bottom:15px;padding-bottom:12px;border-bottom:2px solid var(--bdr)}
+        .ea{width:50px;height:50px;border-radius:50%;background:var(--sec);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;flex-shrink:0}
+        .re{padding:12px;border-left:3px solid var(--acc);background:#f8fafb;border-radius:0 10px 10px 0;margin-bottom:10px}
+        .re .rd{font-size:12px;color:var(--acc);font-weight:700}.re .rn{font-size:14px;margin-top:4px;line-height:1.5}
+        .sr{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:15px}
+        .sc{background:linear-gradient(135deg,var(--sec),var(--pri));color:#fff;border-radius:12px;padding:12px;text-align:center}
+        .sc .sn{font-size:24px;font-weight:800}.sc .sll{font-size:11px;opacity:.8}
+        .es{text-align:center;padding:30px;color:var(--txtl)}.es i{font-size:40px;margin-bottom:10px;color:var(--bdr)}
+        .mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;justify-content:center;align-items:flex-start;padding-top:30px;overflow-y:auto}
+        .mo.open{display:flex}
+        .ml{background:#fff;width:100%;max-width:460px;border-radius:20px;padding:22px 18px 28px;animation:su .3s ease;position:relative;margin-bottom:40px;max-height:90vh;overflow-y:auto}
+        @keyframes su{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
+        .mc{position:absolute;top:12px;right:14px;background:#f0f0f0;border:none;width:32px;height:32px;border-radius:50%;font-size:18px;cursor:pointer;color:#888}
+        .ml h3{color:var(--sec);font-size:18px;margin-bottom:15px;display:flex;align-items:center;gap:8px}
+        .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--pri);color:#fff;padding:12px 24px;border-radius:50px;font-size:14px;font-weight:600;box-shadow:0 4px 15px rgba(0,0,0,.3);opacity:0;transition:all .3s;z-index:9999;pointer-events:none;max-width:90%;text-align:center}
+        .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+        .wa-fab{position:fixed;bottom:20px;right:20px;background:var(--wa);color:#fff;width:55px;height:55px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 20px rgba(37,211,102,.4);z-index:150;cursor:pointer;text-decoration:none}
+        .remind-bar{position:fixed;top:0;left:0;right:0;background:linear-gradient(135deg,#e67e22,#f39c12);color:#fff;padding:12px 15px;z-index:9998;display:none;align-items:center;gap:10px;box-shadow:0 4px 15px rgba(0,0,0,.2);font-size:14px;font-weight:600;flex-wrap:wrap}
+        .remind-bar.show{display:flex}
+        .remind-bar button{padding:6px 14px;border:none;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;color:#fff}
+        .autofill-box{background:#e8f5e9;border:1.5px solid var(--acc);border-radius:10px;padding:10px 14px;margin-bottom:12px;display:none;align-items:center;gap:10px}
+        .autofill-box.show{display:flex}
+        .autofill-box .af-info{flex:1;font-size:13px;color:var(--acc)}.autofill-box .af-info strong{color:var(--sec)}
+        @media(max-width:400px){.hdr{padding:10px;gap:10px}.hdr-logo{width:55px;height:55px}.hdr-info .nm{font-size:15px}.sg{grid-template-columns:repeat(3,1fr);gap:6px}.sr{grid-template-columns:1fr}}
+    </style>
+</head>
+<body>
+
+<div class="remind-bar" id="remindBar">
+    <span id="remindText">🔔 Recordatorio:</span>
+    <button style="background:var(--wa);" onclick="enviarRecordatorioWA()"><i class="fab fa-whatsapp"></i> Enviar WhatsApp</button>
+    <button style="background:#555;" onclick="cerrarRecordatorio()">✕ Cerrar</button>
+</div>
+
+<div class="hdr">
+    <div class="hdr-logo" id="logoClick">🩺</div>
+    <div class="hdr-info">
+        <div class="nm">Dr. Pedro Hernández</div>
+        <div class="sp">⚕️ Medicina General · Consultorio</div>
+        <div class="sc">🕐 Lun-Vie: 9:00-14:00 y 16:00-18:00</div>
+        <div class="ph"><i class="fab fa-whatsapp"></i> 2282877441</div>
+    </div>
+</div>
+
+<div class="nav">
+    <button class="nb act" data-page="citas"><i class="fas fa-calendar-plus"></i>Citas</button>
+    <button class="nb" data-page="expediente"><i class="fas fa-file-medical"></i>Expediente</button>
+    <button class="nb" data-page="misCitas"><i class="fas fa-calendar-check"></i>Mis Citas</button>
+    <button class="nb" data-page="admin"><i class="fas fa-cog"></i>Admin</button>
+</div>
+
+<!-- AGENDAR CITA -->
+<div class="pg act" id="pageCitas">
+    <div class="cd">
+        <div class="ct"><i class="fas fa-calendar-alt"></i> Agendar Cita</div>
+        <div class="fg"><label>📅 Seleccione un día</label><div class="ds" id="dateSelector"></div></div>
+        <div id="slotsContainer" style="display:none">
+            <div class="sl"><i class="fas fa-sun"></i> Matutino (9:00 - 14:00)</div>
+            <div class="sg" id="slotsMorning"></div>
+            <div class="sl"><i class="fas fa-moon"></i> Vespertino (16:00 - 18:00)</div>
+            <div class="sg" id="slotsAfternoon"></div>
+        </div>
+    </div>
+    <div class="cd" id="formCita" style="display:none">
+        <div class="ct"><i class="fas fa-user-plus"></i> Datos del Paciente</div>
+        <div class="autofill-box" id="autofillBox">
+            <i class="fas fa-user-check" style="font-size:20px;color:var(--acc);"></i>
+            <div class="af-info" id="autofillInfo"></div>
+            <button class="btn bp bs" onclick="usarPacienteExistente()">✅ Usar</button>
+        </div>
+        <div class="fg"><label>Buscar paciente existente</label>
+            <div class="sbx"><i class="fas fa-search"></i><input type="text" id="buscarPacienteCita" placeholder="Nombre o teléfono..." oninput="buscarPacienteParaCita()" /></div>
+            <div id="resultadosPacientes" style="display:none;background:#fff;border:1px solid var(--bdr);border-radius:10px;max-height:150px;overflow-y:auto;margin-top:-8px;margin-bottom:10px;"></div>
+        </div>
+        <div class="fg"><label>Nombre completo *</label><input type="text" id="citaNombre" placeholder="Ej. María García" /></div>
+        <div class="fr">
+            <div class="fg"><label>Teléfono *</label><input type="tel" id="citaTelefono" placeholder="2281234567" oninput="autocompletarPorTelefono()" /></div>
+            <div class="fg"><label>Edad</label><input type="number" id="citaEdad" placeholder="35" min="0" max="120" /></div>
+        </div>
+        <div class="fg"><label>Motivo de consulta</label><textarea id="citaMotivo" rows="2" placeholder="Ej. Dolor de cabeza, revisión..."></textarea></div>
+        <button class="btn bw bf" onclick="confirmarCita()"><i class="fab fa-whatsapp"></i> Confirmar cita por WhatsApp</button>
+    </div>
+</div>
+
+<!-- EXPEDIENTE -->
+<div class="pg" id="pageExpediente">
+    <div class="cd">
+        <div class="ct"><i class="fas fa-search"></i> Buscar Expediente</div>
+        <div class="sbx"><i class="fas fa-search"></i><input type="text" id="searchExp" placeholder="Buscar por nombre o teléfono..." oninput="buscarExp()" /></div>
+        <div id="expResultados"></div>
+    </div>
+    <div id="expDetalle" style="display:none"></div>
+</div>
+
+<!-- MIS CITAS -->
+<div class="pg" id="pageMisCitas">
+    <div class="cd">
+        <div class="ct"><i class="fas fa-calendar-check"></i> Próximas Citas</div>
+        <div id="listaCitas"></div>
+    </div>
+</div>
+
+<!-- ADMIN -->
+<div class="pg" id="pageAdmin">
+    <div class="cd">
+        <div class="ct"><i class="fas fa-chart-bar"></i> Resumen</div>
+        <div class="sr" id="statsRow"></div>
+    </div>
+    <div class="cd">
+        <div class="ct"><i class="fas fa-bell"></i> Confirmaciones Pendientes</div>
+        <div id="confirmPendientes"></div>
+    </div>
+    <div class="cd">
+        <div class="ct"><i class="fas fa-calendar-alt"></i> Todas las Citas</div>
+        <div class="sbx"><i class="fas fa-search"></i><input type="text" id="searchAdmC" placeholder="Buscar cita..." oninput="renderAdmCitas()" /></div>
+        <div id="admCitas"></div>
+    </div>
+    <div class="cd">
+        <div class="ct"><i class="fas fa-users"></i> Pacientes</div>
+        <div class="sbx"><i class="fas fa-search"></i><input type="text" id="searchAdmP" placeholder="Buscar paciente..." oninput="renderAdmPac()" /></div>
+        <div id="admPac"></div>
+    </div>
+    <div class="cd">
+        <div class="ct"><i class="fas fa-trash-alt"></i> Mantenimiento</div>
+        <button class="btn bd bf" onclick="limpiarDatos()" style="margin-top:8px">🗑️ Limpiar todo</button>
+    </div>
+</div>
+
+<!-- MODAL NOTA -->
+<div class="mo" id="modalNota">
+    <div class="ml">
+        <button class="mc" onclick="cerrarM('modalNota')">&times;</button>
+        <h3><i class="fas fa-notes-medical"></i> Nota Médica</h3>
+        <input type="hidden" id="notaPacId" />
+        <div class="fg"><label>Fecha</label><input type="date" id="notaFecha" /></div>
+        <div class="fg"><label>Diagnóstico / Nota *</label><textarea id="notaTexto" rows="4" placeholder="Nota médica, diagnóstico..."></textarea></div>
+        <div class="fg"><label>Receta / Indicaciones</label><textarea id="notaReceta" rows="2" placeholder="Medicamentos..."></textarea></div>
+        <button class="btn bp bf" onclick="guardarNota()"><i class="fas fa-save"></i> Guardar nota</button>
+    </div>
+</div>
+
+<a href="https://wa.me/522282877441?text=Hola%20Dr.%20Hern%C3%A1ndez%2C%20quiero%20agendar%20una%20cita." class="wa-fab" target="_blank"><i class="fab fa-whatsapp"></i></a>
+<div class="toast" id="toast"></div>
+
+<script>
+const CFG={dr:'Dr. Pedro Hernández',esp:'Medicina General',tel:'2282877441',wa:'522282877441',mS:9,mE:14,aS:16,aE:18,dur:30,pw:'admin123',dias:14};
+let citas=[],pacientes=[],selectedDate=null,selectedSlot=null,pacienteSeleccionado=null,recordatorioPendiente=null;
+
+function ld(k,d){try{const v=localStorage.getItem(k);if(v)return JSON.parse(v)}catch(e){}return d}
+function sv(){localStorage.setItem('con_citas',JSON.stringify(citas));localStorage.setItem('con_pac',JSON.stringify(pacientes))}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),3000)}
+function cap(s){return s.charAt(0).toUpperCase()+s.slice(1)}
+function fmtFecha(f){const[y,m,d]=f.split('-');const dia=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'][new Date(f+'T12:00:00').getDay()];return{d,m,y,dia,str:`${dia} ${d}/${m}/${y}`}}
+
+// === NAV ===
+function irPage(p){document.querySelectorAll('.nb').forEach(b=>b.classList.remove('act'));document.querySelector(`.nb[data-page="${p}"]`).classList.add('act');document.querySelectorAll('.pg').forEach(g=>g.classList.remove('act'));document.getElementById('page'+cap(p)).classList.add('act')}
+
+// === FECHAS ===
+function renderDates(){
+    const c=document.getElementById('dateSelector');c.innerHTML='';
+    const hoy=new Date();hoy.setHours(0,0,0,0);
+    const dn=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'],mn=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+    for(let i=0;i<CFG.dias;i++){
+        const d=new Date(hoy);d.setDate(d.getDate()+i);
+        const dow=d.getDay(),we=dow===0||dow===6;
+        const b=document.createElement('div');b.className='db'+(we?' dis':'')+(i===0&&!we?' sel':'');
+        b.innerHTML=`<div class="dn">${dn[dow]}</div><div class="dl">${d.getDate()}</div><div class="dm">${mn[d.getMonth()]}</div>`;
+        if(!we){
+            const ds=d.toISOString().split('T')[0];
+            b.onclick=()=>{document.querySelectorAll('.db').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');selectedDate=ds;selectedSlot=null;document.getElementById('formCita').style.display='none';renderSlots(ds)};
+            if(i===0&&!we){selectedDate=ds;renderSlots(ds)}
+        }
+        c.appendChild(b);
+    }
+}
+
+function genSlots(s,e){const r=[];let h=s,m=0;while(h<e||(h===e&&m===0)){r.push(`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`);m+=CFG.dur;if(m>=60){h++;m=0}}return r}
+
+function renderSlots(fecha){
+    document.getElementById('slotsContainer').style.display='block';
+    const taken=citas.filter(c=>c.fecha===fecha&&c.estado!=='cancelada').map(c=>c.hora);
+    const isToday=fecha===new Date().toISOString().split('T')[0],now=new Date();
+    function rg(id,slots){
+        const c=document.getElementById(id);c.innerHTML='';
+        slots.forEach(s=>{
+            const b=document.createElement('div');b.className='sb';b.textContent=s;
+            if(taken.includes(s)){b.classList.add('tkn')}
+            else if(isToday){const[sh,sm]=s.split(':').map(Number);if(sh<now.getHours()||(sh===now.getHours()&&sm<=now.getMinutes()))b.classList.add('tkn')}
+            if(!b.classList.contains('tkn')){b.onclick=()=>{document.querySelectorAll('.sb').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');selectedSlot=s;document.getElementById('formCita').style.display='block';document.getElementById('formCita').scrollIntoView({behavior:'smooth',block:'start'})}}
+            c.appendChild(b);
+        });
+    }
+    rg('slotsMorning',genSlots(CFG.mS,CFG.mE));rg('slotsAfternoon',genSlots(CFG.aS,CFG.aE));
+}
+
+// === BUSCAR PACIENTE PARA CITA ===
+function buscarPacienteParaCita(){
+    const term=document.getElementById('buscarPacienteCita').value.toLowerCase().trim();
+    const box=document.getElementById('resultadosPacientes');
+    if(!term){box.style.display='none';box.innerHTML='';return}
+    const res=pacientes.filter(p=>p.nombre.toLowerCase().includes(term)||p.telefono.includes(term));
+    if(res.length===0){box.style.display='none';return}
+    box.style.display='block';
+    box.innerHTML=res.map(p=>`<div style="padding:10px 14px;border-bottom:1px solid var(--bdr);cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="seleccionarPaciente('${p.id}')"><div><strong>👤 ${p.nombre}</strong><br><small style="color:var(--txtl)">📱 ${p.telefono}${p.edad?' · 🎂 '+p.edad+' años':''}</small></div><span style="color:var(--acc);font-weight:700">✅</span></div>`).join('');
+}
+
+function seleccionarPaciente(id){
+    const p=pacientes.find(x=>x.id===id);if(!p)return;
+    pacienteSeleccionado=p;
+    document.getElementById('citaNombre').value=p.nombre;
+    document.getElementById('citaTelefono').value=p.telefono;
+    document.getElementById('citaEdad').value=p.edad||'';
+    document.getElementById('resultadosPacientes').style.display='none';
+    document.getElementById('buscarPacienteCita').value='';
+    const ab=document.getElementById('autofillBox');ab.classList.add('show');
+    document.getElementById('autofillInfo').innerHTML=`<strong>${p.nombre}</strong> · 📱 ${p.telefono}${p.edad?' · 🎂 '+p.edad+' años':''}`;
+    toast('✅ Paciente cargado');
+}
+
+function autocompletarPorTelefono(){
+    const tel=document.getElementById('citaTelefono').value.trim();
+    if(tel.length>=6){
+        const p=pacientes.find(x=>x.telefono===tel);
+        if(p){
+            pacienteSeleccionado=p;
+            document.getElementById('citaNombre').value=p.nombre;
+            document.getElementById('citaEdad').value=p.edad||'';
+            const ab=document.getElementById('autofillBox');ab.classList.add('show');
+            document.getElementById('autofillInfo').innerHTML=`<strong>${p.nombre}</strong> · 📱 ${p.telefono}${p.edad?' · 🎂 '+p.edad+' años':''}`;
+        }else{
+            pacienteSeleccionado=null;
+            document.getElementById('autofillBox').classList.remove('show');
+        }
+    }
+}
+
+function usarPacienteExistente(){toast('✅ Datos del paciente listos')}
+
+function reagendarCita(pacId){
+    const p=pacientes.find(x=>x.id===pacId);if(!p)return;
+    irPage('citas');
+    pacienteSeleccionado=p;
+    document.getElementById('citaNombre').value=p.nombre;
+    document.getElementById('citaTelefono').value=p.telefono;
+    document.getElementById('citaEdad').value=p.edad||'';
+    const ab=document.getElementById('autofillBox');ab.classList.add('show');
+    document.getElementById('autofillInfo').innerHTML=`<strong>${p.nombre}</strong> · 📱 ${p.telefono}${p.edad?' · 🎂 '+p.edad+' años':''}`;
+    toast('📋 Paciente cargado, seleccione fecha y hora');
+    setTimeout(()=>document.getElementById('dateSelector').scrollIntoView({behavior:'smooth',block:'center'}),200);
+}
+
+// === CONFIRMAR CITA ===
+function confirmarCita(){
+    const nombre=document.getElementById('citaNombre').value.trim();
+    const telefono=document.getElementById('citaTelefono').value.trim();
+    const edad=document.getElementById('citaEdad').value;
+    const motivo=document.getElementById('citaMotivo').value.trim();
+    if(!selectedDate||!selectedSlot){toast('⚠️ Seleccione fecha y hora');return}
+    if(!nombre){toast('⚠️ Ingrese nombre');return}
+    if(!telefono){toast('⚠️ Ingrese teléfono');return}
+
+    let pac=pacientes.find(p=>p.telefono===telefono);
+    if(!pac){pac={id:'pac_'+Date.now(),nombre,telefono,edad:edad||'',expediente:[],creado:new Date().toISOString()};pacientes.push(pac)}
+    else{pac.nombre=nombre;if(edad)pac.edad=edad}
+
+    const cita={id:'cita_'+Date.now(),pacienteId:pac.id,nombre,telefono,fecha:selectedDate,hora:selectedSlot,motivo,estado:'pendiente',confirmacion:'pendiente',recordatorioEnviado:false,creado:new Date().toISOString()};
+    citas.push(cita);sv();
+
+    const ff=fmtFecha(selectedDate);
+    const msg=`🩺 *${CFG.dr}*\n📋 *CITA AGENDADA*\n━━━━━━━━━━━━━━━\n👤 *Paciente:* ${nombre}\n📱 *Tel:* ${telefono}${edad?'\n🎂 *Edad:* '+edad+' años':''}\n━━━━━━━━━━━━━━━\n📅 *Fecha:* ${ff.str}\n🕐 *Hora:* ${selectedSlot}\n📝 *Motivo:* ${motivo||'No especificado'}\n━━━━━━━━━━━━━━━\n\n✅ *Para confirmar su cita, responda este mensaje con:*\n👉 *CONFIRMO*\n\n⚠️ Si no confirma, nos comunicaremos con usted por teléfono.\n\n🙏 ${CFG.dr}`;
+    window.open(`https://wa.me/52${telefono}?text=${encodeURIComponent(msg)}`,'_blank');
+
+    document.getElementById('citaNombre').value='';document.getElementById('citaTelefono').value='';document.getElementById('citaEdad').value='';document.getElementById('citaMotivo').value='';
+    document.getElementById('formCita').style.display='none';document.getElementById('autofillBox').classList.remove('show');
+    pacienteSeleccionado=null;selectedSlot=null;
+    renderSlots(selectedDate);renderCitasProx();renderStats();renderAdmCitas();renderAdmPac();renderConfirmPend();
+    toast('✅ Cita agendada');
+}
+
+// === CITAS PRÓXIMAS ===
+function renderCitasProx(){
+    const c=document.getElementById('listaCitas');
+    const hoy=new Date().toISOString().split('T')[0];
+    const prox=citas.filter(c=>c.fecha>=hoy&&c.estado!=='cancelada').sort((a,b)=>(a.fecha+a.hora).localeCompare(b.fecha+b.hora));
+    if(!prox.length){c.innerHTML='<div class="es"><i class="fas fa-calendar-times"></i><p>No hay citas agendadas</p></div>';return}
+    c.innerHTML=prox.map(c=>{
+        const ff=fmtFecha(c.fecha);
+        const confLabel={pendiente:'🟡 Sin confirmar',confirmado:'✅ Confirmado',no_confirmo:'⚠️ No confirmó'};
+        const confClass={pendiente:'nconf',confirmado:'conf',no_confirmo:'nconf'};
+        return `<div class="ac ${c.estado==='pendiente'?'pend':c.estado==='confirmada'?'conf':'canc'}">
+            <div class="at">🕐 ${c.hora}</div>
+            <div class="ap">👤 ${c.nombre}</div>
+            <div class="ad">📅 ${ff.str} · 📱 ${c.telefono}${c.motivo?' · 📝 '+c.motivo:''}</div>
+            <span class="as ${c.estado==='pendiente'?'pend':c.estado==='confirmada'?'conf':'canc'}">${c.estado==='pendiente'?'🟡 Pendiente':c.estado==='confirmada'?'✅ Confirmada':'❌ Cancelada'}</span>
+            <span class="as ${confClass[c.confirmacion||'pendiente']}" style="margin-left:4px">${confLabel[c.confirmacion||'pendiente']}</span>
+            <div class="aa">
+                <button style="background:var(--gold)" onclick="reagendarCita('${c.pacienteId}')">🔄 Reagendar</button>
+                <button style="background:var(--wa)" onclick="reenviarWA('${c.id}')"><i class="fab fa-whatsapp"></i></button>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+// === CONFIRMACIONES PENDIENTES ===
+function renderConfirmPend(){
+    const c=document.getElementById('confirmPendientes');
+    const hoy=new Date().toISOString().split('T')[0];
+    const pend=citas.filter(ct=>ct.fecha>=hoy&&ct.estado!=='cancelada'&&(ct.confirmacion==='pendiente'||ct.confirmacion==='no_confirmo')).sort((a,b)=>(a.fecha+a.hora).localeCompare(b.fecha+b.hora));
+    if(!pend.length){c.innerHTML='<div class="es" style="padding:15px"><p style="font-size:13px">✅ Todas las citas están confirmadas</p></div>';return}
+    c.innerHTML=pend.map(ct=>{
+        const ff=fmtFecha(ct.fecha);
+        return `<div style="padding:12px;border-left:4px solid ${ct.confirmacion==='no_confirmo'?'#e67e22':'var(--gold)'};background:#fafbfc;border-radius:0 10px 10px 0;margin-bottom:8px">
+            <div style="font-weight:700">👤 ${ct.nombre} · 📱 ${ct.telefono}</div>
+            <div style="font-size:13px;color:var(--txtl)">📅 ${ff.str} · 🕐 ${ct.hora}</div>
+            <div style="font-size:12px;color:${ct.confirmacion==='no_confirmo'?'#e67e22':'var(--gold)'};font-weight:700;margin-top:4px">${ct.confirmacion==='no_confirmo'?'⚠️ NO CONFIRMÓ - Llamar por teléfono':'🟡 Pendiente de confirmación'}</div>
+            <div class="aa">
+                <button style="background:var(--acc)" onclick="marcarConfirmado('${ct.id}')">✅ Confirmó</button>
+                <button style="background:#e67e22" onclick="marcarNoConfirmo('${ct.id}')">⚠️ No confirmó</button>
+                <button style="background:var(--wa)" onclick="reenviarConfirmacionWA('${ct.id}')"><i class="fab fa-whatsapp"></i> Reenviar</button>
+                ${ct.confirmacion==='no_confirmo'?`<button style="background:var(--sec)" onclick="llamarTelefono('${ct.telefono}')">📞 Llamar</button>`:''}
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function marcarConfirmado(id){const c=citas.find(x=>x.id===id);if(c){c.confirmacion='confirmado';if(c.estado==='pendiente')c.estado='confirmada';sv();renderConfirmPend();renderAdmCitas();renderCitasProx();renderStats();toast('✅ Cita confirmada por el paciente')}}
+function marcarNoConfirmo(id){const c=citas.find(x=>x.id===id);if(c){c.confirmacion='no_confirmo';sv();renderConfirmPend();renderAdmCitas();renderCitasProx();toast('⚠️ Marcado como no confirmó - Llamar por teléfono')}}
+function llamarTelefono(tel){window.open(`tel:+52${tel}`,'_self');toast('📞 Llamando al paciente...')}
+
+function reenviarConfirmacionWA(id){
+    const c=citas.find(x=>x.id===id);if(!c)return;
+    const ff=fmtFecha(c.fecha);
+    const msg=`🩺 *${CFG.dr}*\n⏰ *RECORDATORIO DE CITA*\n━━━━━━━━━━━━━━━\n👤 *Paciente:* ${c.nombre}\n📅 *Fecha:* ${ff.str}\n🕐 *Hora:* ${c.hora}\n━━━━━━━━━━━━━━━\n\n✅ *Para confirmar, responda:*\n👉 *CONFIRMO*\n\n⚠️ Si no confirma, nos comunicaremos por teléfono.\n\n🙏 ${CFG.dr}`;
+    window.open(`https://wa.me/52${c.telefono}?text=${encodeURIComponent(msg)}`,'_blank');
+}
+
+// === RECORDATORIO 3 HORAS ANTES ===
+function verificarRecordatorios(){
+    const ahora=new Date();
+    citas.forEach(c=>{
+        if(c.estado==='cancelada'||c.recordatorioEnviado)return;
+        const[sh,sm]=c.hora.split(':').map(Number);
+        const fechaCita=new Date(c.fecha+'T00:00:00');fechaCita.setHours(sh,sm,0,0);
+        const diffMs=fechaCita-ahora;
+        const diffHrs=diffMs/(1000*60*60);
+        if(diffHrs>2.9&&diffHrs<=3.1){
+            recordatorioPendiente=c;
+            const ff=fmtFecha(c.fecha);
+            document.getElementById('remindText').innerHTML=`🔔 <strong>${c.nombre}</strong> tiene cita hoy a las <strong>${c.hora}</strong> (${ff.str})`;
+            document.getElementById('remindBar').classList.add('show');
+            c.recordatorioEnviado=true;sv();
+        }
+    });
+}
+
+function enviarRecordatorioWA(){
+    if(!recordatorioPendiente)return;
+    const c=recordatorioPendiente;const ff=fmtFecha(c.fecha);
+    const msg=`🩺 *${CFG.dr}*\n⏰ *RECORDATORIO: Su cita es en 3 horas*\n━━━━━━━━━━━━━━━\n📅 *Fecha:* ${ff.str}\n🕐 *Hora:* ${c.hora}\n👤 *Paciente:* ${c.nombre}\n━━━━━━━━━━━━━━━\n\n✅ *Confirme respondiendo: CONFIRMO*\n⚠️ Si no puede asistir, avísenos por favor.\n\n🙏 ${CFG.dr}`;
+    window.open(`https://wa.me/52${c.telefono}?text=${encodeURIComponent(msg)}`,'_blank');
+    cerrarRecordatorio();
+}
+
+function cerrarRecordatorio(){document.getElementById('remindBar').classList.remove('show');recordatorioPendiente=null}
+
+// === EXPEDIENTE ===
+function buscarExp(){
+    const term=document.getElementById('searchExp').value.toLowerCase().trim();
+    const c=document.getElementById('expResultados');document.getElementById('expDetalle').style.display='none';
+    if(!term){c.innerHTML='<div class="es"><i class="fas fa-search"></i><p>Busque un paciente</p></div>';return}
+    const res=pacientes.filter(p=>p.nombre.toLowerCase().includes(term)||p.telefono.includes(term));
+    if(!res.length){c.innerHTML='<div class="es"><i class="fas fa-user-slash"></i><p>No encontrado</p></div>';return}
+    c.innerHTML=res.map(p=>{
+        const nc=citas.filter(ct=>ct.pacienteId===p.id).length;
+        return `<div style="padding:10px;border-bottom:1px solid var(--bdr);cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="verExp('${p.id}')"><div><strong>👤 ${p.nombre}</strong><br><small style="color:var(--txtl)">📱 ${p.telefono}${p.edad?' · 🎂 '+p.edad+' años':''}</small></div><span style="background:var(--acc);color:#fff;border-radius:20px;padding:2px 10px;font-size:11px;font-weight:700">🩺 ${nc}</span></div>`;
+    }).join('');
+}
+
+function verExp(id){
+    const p=pacientes.find(x=>x.id===id);if(!p)return;
+    const c=document.getElementById('expDetalle');c.style.display='block';
+    const cp=citas.filter(ct=>ct.pacienteId===id).sort((a,b)=>b.fecha.localeCompare(a.fecha));
+    const exp=p.expediente||[];
+    let eh='';
+    if(exp.length){eh=exp.sort((a,b)=>b.fecha.localeCompare(a.fecha)).map(e=>`<div class="re"><div class="rd">📅 ${e.fecha}</div><div class="rn">${e.nota}</div>${e.receta?`<div style="margin-top:6px;font-size:13px;color:var(--sec)"><strong>💊 Receta:</strong> ${e.receta}</div>`:''}</div>`).join('')}
+    else{eh='<div class="es"><i class="fas fa-file-medical-alt"></i><p>Sin notas médicas</p></div>'}
+    let ch=cp.map(ct=>{const ff=fmtFecha(ct.fecha);return `<div style="padding:8px;border-bottom:1px solid var(--bdr);font-size:13px"><strong>📅 ${ff.str}</strong> · 🕐 ${ct.hora} · <span class="as ${ct.estado==='pendiente'?'pend':ct.estado==='confirmada'?'conf':'canc'}">${ct.estado}</span>${ct.motivo?'<br>📝 '+ct.motivo:''}</div>`}).join('');
+    c.innerHTML=`<div class="cd"><div class="eh"><div class="ea">${p.nombre.charAt(0)}</div><div><div style="font-size:18px;font-weight:700;color:var(--pri)">${p.nombre}</div><div style="font-size:13px;color:var(--txtl)">📱 ${p.telefono}${p.edad?' · 🎂 '+p.edad+' años':''} · 🩺 ${cp.length} consulta${cp.length!==1?'s':''}</div></div></div>
+    <div style="display:flex;gap:8px;margin-bottom:15px;flex-wrap:wrap">
+        <button class="btn bp bs" onclick="abrirNota('${p.id}')"><i class="fas fa-plus"></i> Nota médica</button>
+        <button class="btn bg bs" onclick="reagendarCita('${p.id}')"><i class="fas fa-calendar-plus"></i> Reagendar cita</button>
+        <button class="btn bw bs" onclick="enviarExpWA('${p.id}')"><i class="fab fa-whatsapp"></i> Enviar resumen</button>
+    </div>
+    <div class="ct"><i class="fas fa-notes-medical"></i> Notas Médicas</div>${eh}
+    <div class="ct" style="margin-top:15px"><i class="fas fa-history"></i> Historial de Citas</div>${ch||'<div class="es"><p>Sin citas</p></div>'}</div>`;
+    c.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function enviarExpWA(id){
+    const p=pacientes.find(x=>x.id===id);if(!p)return;
+    const exp=p.expediente||[];
+    let notas=exp.slice(-3).map(e=>`📅 ${e.fecha}: ${e.nota}`).join('\n');
+    const msg=`🩺 *${CFG.dr}*\n📋 *RESUMEN DE EXPEDIENTE*\n━━━━━━━━━━━━━━━\n👤 *Paciente:* ${p.nombre}\n📱 *Tel:* ${p.telefono}${p.edad?'\n🎂 *Edad:* '+p.edad+' años':''}\n━━━━━━━━━━━━━━━\n${notas?'📝 *Últimas notas:*\n'+notas:'Sin notas médicas'}\n━━━━━━━━━━━━━━━\n🙏 ${CFG.dr}`;
+    window.open(`https://wa.me/52${p.telefono}?text=${encodeURIComponent(msg)}`,'_blank');
+}
+
+function abrirNota(id){document.getElementById('notaPacId').value=id;document.getElementById('notaFecha').valueAsDate=new Date();document.getElementById('notaTexto').value='';document.getElementById('notaReceta').value='';document.getElementById('modalNota').classList.add('open')}
+
+function guardarNota(){
+    const id=document.getElementById('notaPacId').value,fecha=document.getElementById('notaFecha').value,nota=document.getElementById('notaTexto').value.trim(),receta=document.getElementById('notaReceta').value.trim();
+    if(!nota){toast('⚠️ Escriba una nota');return}
+    const p=pacientes.find(x=>x.id===id);if(!p)return;
+    if(!p.expediente)p.expediente=[];p.expediente.push({fecha,nota,receta,creado:new Date().toISOString()});sv();
+    cerrarM('modalNota');verExp(id);toast('✅ Nota guardada');
+}
+
+// === ADMIN ===
+function renderStats(){
+    const hoy=new Date().toISOString().split('T')[0];
+    const ch=citas.filter(c=>c.fecha===hoy&&c.estado!=='cancelada').length;
+    const cp=citas.filter(c=>c.confirmacion==='pendiente'&&c.estado!=='cancelada'&&c.fecha>=hoy).length;
+    const tp=pacientes.length;
+    document.getElementById('statsRow').innerHTML=`<div class="sc"><div class="sn">${ch}</div><div class="sll">Citas hoy</div></div><div class="sc"><div class="sn">${cp}</div><div class="sll">Por confirmar</div></div><div class="sc"><div class="sn">${tp}</div><div class="sll">Pacientes</div></div>`;
+}
+
+function renderAdmCitas(){
+    const term=(document.getElementById('searchAdmC')?.value||'').toLowerCase().trim();
+    const c=document.getElementById('admCitas');
+    let f=[...citas].sort((a,b)=>(b.fecha+b.hora).localeCompare(a.fecha+a.hora));
+    if(term)f=f.filter(ct=>ct.nombre.toLowerCase().includes(term)||ct.telefono.includes(term)||ct.fecha.includes(term));
+    if(!f.length){c.innerHTML='<div class="es"><p>No hay citas</p></div>';return}
+    c.innerHTML=f.map(ct=>{
+        const ff=fmtFecha(ct.fecha);
+        const confLabel={pendiente:'🟡 Sin confirmar',confirmado:'✅ Confirmado',no_confirmo:'⚠️ No confirmó'};
+        return `<div class="ac ${ct.estado==='pendiente'?'pend':ct.estado==='confirmada'?'conf':'canc'}">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start"><div>
+                <div class="at">🕐 ${ct.hora}</div><div class="ap">👤 ${ct.nombre}</div><div class="ad">📅 ${ff.str} · 📱 ${ct.telefono}</div>
+            </div><span class="as ${ct.estado==='pendiente'?'pend':ct.estado==='confirmada'?'conf':'canc'}">${ct.estado}</span></div>
+            <span class="as ${(ct.confirmacion||'pendiente')==='confirmado'?'conf':(ct.confirmacion||'pendiente')==='no_confirmo'?'nconf':'pend'}">${confLabel[ct.confirmacion||'pendiente']}</span>
+            <div class="aa">
+                ${ct.estado==='pendiente'?`<button style="background:var(--acc)" onclick="cambEstado('${ct.id}','confirmada')">✅ Confirmar</button>`:''}
+                ${ct.estado!=='cancelada'?`<button style="background:var(--dng)" onclick="cambEstado('${ct.id}','cancelada')">❌ Cancelar</button>`:''}
+                ${ct.confirmacion==='pendiente'?`<button style="background:var(--acc)" onclick="marcarConfirmado('${ct.id}')">✅ Pac. confirmó</button><button style="background:#e67e22" onclick="marcarNoConfirmo('${ct.id}')">⚠️ No confirmó</button>`:''}
+                ${ct.confirmacion==='no_confirmo'?`<button style="background:var(--sec)" onclick="llamarTelefono('${ct.telefono}')">📞 Llamar</button>`:''}
+                <button style="background:var(--wa)" onclick="reenviarWA('${ct.id}')"><i class="fab fa-whatsapp"></i></button>
+                <button style="background:var(--gold)" onclick="reagendarCita('${ct.pacienteId}')">🔄 Reagendar</button>
+                <button style="background:#555" onclick="elimCita('${ct.id}')">🗑️</button>
+            </div></div>`;
+    }).join('');
+}
+
+function cambEstado(id,est){const c=citas.find(x=>x.id===id);if(c){c.estado=est;sv();renderAdmCitas();renderCitasProx();renderStats();renderConfirmPend();toast('✅ Estado actualizado')}}
+
+function reenviarWA(id){
+    const c=citas.find(x=>x.id===id);if(!c)return;
+    const ff=fmtFecha(c.fecha);
+    const msg=`🩺 *${CFG.dr}*\n📋 *RECORDATORIO DE CITA*\n━━━━━━━━━━━━━━━\n👤 *Paciente:* ${c.nombre}\n📅 *Fecha:* ${ff.str}\n🕐 *Hora:* ${c.hora}\n📝 *Motivo:* ${c.motivo||'No especificado'}\n━━━━━━━━━━━━━━━\n✅ *Confirme respondiendo: CONFIRMO*\n🙏 ${CFG.dr}`;
+    window.open(`https://wa.me/52${c.telefono}?text=${encodeURIComponent(msg)}`,'_blank');
+}
+
+function elimCita(id){if(!confirm('¿Eliminar cita?'))return;citas=citas.filter(c=>c.id!==id);sv();renderAdmCitas();renderCitasProx();renderStats();renderConfirmPend();toast('🗑️ Eliminada')}
+
+function renderAdmPac(){
+    const term=(document.getElementById('searchAdmP')?.value||'').toLowerCase().trim();
+    const c=document.getElementById('admPac');
+    let f=[...pacientes].sort((a,b)=>a.nombre.localeCompare(b.nombre));
+    if(term)f=f.filter(p=>p.nombre.toLowerCase().includes(term)||p.telefono.includes(term));
+    if(!f.length){c.innerHTML='<div class="es"><p>No hay pacientes</p></div>';return}
+    c.innerHTML=f.map(p=>{
+        const nc=citas.filter(ct=>ct.pacienteId===p.id).length,nn=(p.expediente||[]).length;
+        return `<div style="padding:10px;border-bottom:1px solid var(--bdr);display:flex;justify-content:space-between;align-items:center"><div><strong>👤 ${p.nombre}</strong><br><small style="color:var(--txtl)">📱 ${p.telefono}${p.edad?' · 🎂 '+p.edad+' años':''} · 🩺 ${nc} citas · 📋 ${nn} notas</small></div><div style="display:flex;gap:5px"><button style="background:var(--sec);color:#fff;border:none;border-radius:8px;padding:5px 10px;font-size:11px;cursor:pointer" onclick="verExpAdm('${p.id}')">📋</button><button style="background:var(--dng);color:#fff;border:none;border-radius:8px;padding:5px 10px;font-size:11px;cursor:pointer" onclick="elimPac('${p.id}')">✕</button></div></div>`;
+    }).join('');
+}
+
+function verExpAdm(id){irPage('expediente');const p=pacientes.find(x=>x.id===id);if(p){document.getElementById('searchExp').value=p.nombre;buscarExp();setTimeout(()=>verExp(id),200)}}
+function elimPac(id){if(!confirm('¿Eliminar paciente?'))return;citas=citas.filter(c=>c.pacienteId!==id);pacientes=pacientes.filter(p=>p.id!==id);sv();renderAdmPac();renderAdmCitas();renderCitasProx();renderStats();renderConfirmPend();toast('🗑️ Eliminado')}
+function limpiarDatos(){if(!confirm('⚠️ ¿Eliminar TODO?'))return;citas=[];pacientes=[];sv();renderAdmCitas();renderAdmPac();renderCitasProx();renderStats();renderConfirmPend();toast('🗑️ Todo eliminado')}
+function cerrarM(id){document.getElementById(id).classList.remove('open')}
+
+// === INICIO ===
+document.addEventListener('DOMContentLoaded',function(){
+    citas=ld('con_citas',[]);pacientes=ld('con_pac',[]);
+    renderDates();renderCitasProx();renderStats();renderAdmCitas();renderAdmPac();renderConfirmPend();
+
+    document.querySelectorAll('.nb').forEach(b=>b.addEventListener('click',function(){irPage(this.dataset.page)}));
+
+    let cl=0;document.getElementById('logoClick').addEventListener('click',function(){cl++;clearTimeout(window._lt);window._lt=setTimeout(()=>{cl=0},3000);if(cl>=5){cl=0;const p=prompt('🔐 Contraseña:');if(p===CFG.pw){irPage('admin');toast('✅ Admin')}}});
+
+    document.getElementById('notaFecha').valueAsDate=new Date();
+
+    // Verificar recordatorios cada 60 segundos
+    setInterval(verificarRecordatorios,60000);
+    verificarRecordatorios();
+});
+</script>
+</body>
+</html>
