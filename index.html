@@ -6,9 +6,32 @@
     <title>Dr. Pedro Hernández - Consultorio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
-        :root{--pri:#0c2d48;--sec:#145374;--acc:#2e8b57;--gold:#c9a227;--bg:#f0f4f8;--card:#fff;--txt:#1a1a2e;--txtl:#6c7a89;--bdr:#dce3ea;--dng:#e74c3c;--wa:#25D366}
+        :root{--pri:#0c2d48;--sec:#145374;--acc:#2e8b57;--gold:#c9a227;--bg:#f0f4f8;--card:#fff;--txt:#1a1a2e;--txtl:#6c7a89;--bdr:#dce3ea;--dng:#e74c3c;--wa:#25D366;--input-bg:#fafbfc}
+        
+        /* MODO OSCURO */
+        body.dark-mode{--bg:#121212;--card:#1e1e2f;--txt:#e0e0e0;--txtl:#a0a0a0;--bdr:#333344;--pri:#1a3a5c;--sec:#2a6a9a;--input-bg:#2a2a3a}
+        body.dark-mode .hdr{background:linear-gradient(135deg,var(--pri),var(--sec))}
+        body.dark-mode .nav{background:var(--card);border-bottom-color:var(--bdr)}
+        body.dark-mode .nb{color:var(--txtl);background:transparent}
+        body.dark-mode .nb.act{background:rgba(46,139,87,.1);color:var(--acc)}
+        body.dark-mode .db{background:var(--card);border-color:var(--bdr)}
+        body.dark-mode .db .dl{color:var(--txt)}
+        body.dark-mode .sb{background:var(--card);color:var(--txt);border-color:var(--bdr)}
+        body.dark-mode .sb.tkn{background:#2a2a3a;color:#555;border-color:#444}
+        body.dark-mode .ac{background:var(--card);border-color:var(--bdr)}
+        body.dark-mode .sbx{background:var(--card);border-color:var(--bdr)}
+        body.dark-mode .sbx input{color:var(--txt);background:transparent}
+        body.dark-mode .re{background:var(--input-bg);border-color:var(--acc)}
+        body.dark-mode .mo .ml{background:var(--card)}
+        body.dark-mode .mo .mc{background:var(--bdr);color:var(--txt)}
+        body.dark-mode #resultadosPacientes{background:var(--card)!important;border-color:var(--bdr)!important}
+        body.dark-mode #resultadosPacientes div{border-bottom-color:var(--bdr)!important}
+        body.dark-mode .autofill-box{background:rgba(46,139,87,.15);border-color:var(--acc)}
+        body.dark-mode .fg input, body.dark-mode .fg textarea, body.dark-mode .fg select{background:var(--input-bg);color:var(--txt);border-color:var(--bdr)}
+        body.dark-mode .fg input:focus, body.dark-mode .fg textarea:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(46,139,87,.2)}
+
         *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
-        body{background:var(--bg);color:var(--txt);min-height:100vh}
+        body{background:var(--bg);color:var(--txt);min-height:100vh;transition:background 0.3s, color 0.3s}
         .hdr{background:linear-gradient(135deg,var(--pri),var(--sec));padding:15px;display:flex;align-items:center;gap:15px;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.3)}
         .hdr-logo{width:70px;height:70px;border-radius:50%;border:3px solid var(--gold);background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;font-size:28px;color:var(--sec)}
         .hdr-info{flex:1;min-width:0}
@@ -16,6 +39,8 @@
         .hdr-info .sp{color:var(--gold);font-size:13px;font-weight:600;margin-top:2px}
         .hdr-info .sc{color:rgba(255,255,255,.8);font-size:11px;margin-top:3px}
         .hdr-info .ph{display:inline-flex;align-items:center;gap:5px;background:var(--wa);color:#fff;padding:3px 12px;border-radius:20px;font-size:12px;font-weight:700;margin-top:5px}
+        .dark-toggle{background:rgba(255,255,255,.2);border:none;color:#fff;width:40px;height:40px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:0.3s}
+        .dark-toggle:hover{background:rgba(255,255,255,.4)}
         .nav{display:flex;background:#fff;border-bottom:2px solid var(--bdr);overflow-x:auto}
         .nb{flex:1;padding:12px 8px;border:none;background:transparent;font-size:11px;font-weight:700;color:var(--txtl);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;border-bottom:3px solid transparent;min-width:72px}
         .nb i{font-size:17px}.nb.act{color:var(--acc);border-bottom-color:var(--acc);background:rgba(46,139,87,.05)}
@@ -24,8 +49,8 @@
         .cd{background:var(--card);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:0 2px 12px rgba(0,0,0,.06);border:1px solid var(--bdr)}
         .ct{font-size:16px;font-weight:700;color:var(--sec);margin-bottom:12px;display:flex;align-items:center;gap:8px}.ct i{color:var(--acc)}
         .fg{margin-bottom:14px}.fg label{display:block;font-size:13px;font-weight:700;color:var(--txtl);margin-bottom:4px}
-        .fg input,.fg textarea,.fg select{width:100%;padding:11px 14px;border:1.5px solid var(--bdr);border-radius:10px;font-size:15px;background:#fafbfc;font-family:inherit;color:var(--txt)}
-        .fg input:focus,.fg textarea:focus{border-color:var(--acc);outline:none;box-shadow:0 0 0 3px rgba(46,139,87,.1)}
+        .fg input,.fg textarea,.fg select{width:100%;padding:11px 14px;border:1.5px solid var(--bdr);border-radius:10px;font-size:15px;background:var(--input-bg);font-family:inherit;color:var(--txt);transition: 0.3s;}
+        .fg input:focus,.fg textarea:focus,.fg select:focus{border-color:var(--acc);outline:none;box-shadow:0 0 0 3px rgba(46,139,87,.1)}
         .fr{display:grid;grid-template-columns:1fr 1fr;gap:10px}
         .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 24px;border:none;border-radius:50px;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s}.btn:active{transform:scale(.97)}
         .bp{background:var(--acc);color:#fff;box-shadow:0 4px 15px rgba(46,139,87,.3)}
@@ -76,6 +101,11 @@
         .autofill-box{background:#e8f5e9;border:1.5px solid var(--acc);border-radius:10px;padding:10px 14px;margin-bottom:12px;display:none;align-items:center;gap:10px}
         .autofill-box.show{display:flex}
         .autofill-box .af-info{flex:1;font-size:13px;color:var(--acc)}.autofill-box .af-info strong{color:var(--sec)}
+        .clinical-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:13px;margin-bottom:15px}
+        .clinical-item{background:var(--input-bg);padding:8px 10px;border-radius:8px;border-left:3px solid var(--acc)}
+        .clinical-item strong{display:block;color:var(--sec);font-size:11px;margin-bottom:2px}
+        .clinical-full{grid-column:1/-1}
+        .clinical-alert{border-left-color:var(--dng)}
         @media(max-width:400px){.hdr{padding:10px;gap:10px}.hdr-logo{width:55px;height:55px}.hdr-info .nm{font-size:15px}.sg{grid-template-columns:repeat(3,1fr);gap:6px}.sr{grid-template-columns:1fr}}
     </style>
 </head>
@@ -95,6 +125,7 @@
         <div class="sc">🕐 Lun-Vie: 9:00-14:00 y 16:00-18:00</div>
         <div class="ph"><i class="fab fa-whatsapp"></i> 2282877441</div>
     </div>
+    <button class="dark-toggle" id="darkModeToggle" onclick="toggleDarkMode()"><i class="fas fa-moon"></i></button>
 </div>
 
 <div class="nav">
@@ -132,6 +163,31 @@
             <div class="fg"><label>Teléfono *</label><input type="tel" id="citaTelefono" placeholder="2281234567" oninput="autocompletarPorTelefono()" /></div>
             <div class="fg"><label>Edad</label><input type="number" id="citaEdad" placeholder="35" min="0" max="120" /></div>
         </div>
+        
+        <!-- NUEVOS CAMPOS CLÍNICOS -->
+        <div class="ct" style="margin-top:10px;"><i class="fas fa-heartbeat"></i> Datos Clínicos</div>
+        <div class="fr">
+            <div class="fg">
+                <label>Tipo de sangre</label>
+                <select id="citaSangre">
+                    <option value="">Seleccionar...</option>
+                    <option value="A+">A+</option><option value="A-">A-</option>
+                    <option value="B+">B+</option><option value="B-">B-</option>
+                    <option value="AB+">AB+</option><option value="AB-">AB-</option>
+                    <option value="O+">O+</option><option value="O-">O-</option>
+                </select>
+            </div>
+            <div class="fg"><label>Peso (kg)</label><input type="number" id="citaPeso" placeholder="70" step="0.1" /></div>
+        </div>
+        <div class="fr">
+            <div class="fg"><label>Estatura (cm)</label><input type="number" id="citaEstatura" placeholder="170" /></div>
+            <div class="fg"><label>Alérgico a</label><input type="text" id="citaAlergias" placeholder="Penicilina, etc..." /></div>
+        </div>
+        <div class="fg"><label>Cirugías previas</label><input type="text" id="citaCirugias" placeholder="Apendicitis, etc..." /></div>
+        <div class="fg"><label>Medicamentos actuales</label><input type="text" id="citaMedicamentos" placeholder="Metformina, etc..." /></div>
+        <div class="fg"><label>Enfermedades actuales</label><input type="text" id="citaEnfermedades" placeholder="Diabetes, etc..." /></div>
+        <!-- FIN NUEVOS CAMPOS -->
+
         <div class="fg"><label>Motivo de consulta</label><textarea id="citaMotivo" rows="2" placeholder="Ej. Dolor de cabeza, revisión..."></textarea></div>
         <button class="btn bw bf" onclick="confirmarCita()"><i class="fab fa-whatsapp"></i> Confirmar cita por WhatsApp</button>
     </div>
@@ -207,6 +263,14 @@ function toast(m){const t=document.getElementById('toast');t.textContent=m;t.cla
 function cap(s){return s.charAt(0).toUpperCase()+s.slice(1)}
 function fmtFecha(f){const[y,m,d]=f.split('-');const dia=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'][new Date(f+'T12:00:00').getDay()];return{d,m,y,dia,str:`${dia} ${d}/${m}/${y}`}}
 
+// === MODO OSCURO ===
+function toggleDarkMode(){
+    document.body.classList.toggle('dark-mode');
+    const isDark = document.body.classList.contains('dark-mode');
+    localStorage.setItem('darkMode', isDark);
+    document.getElementById('darkModeToggle').innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+}
+
 // === NAV ===
 function irPage(p){document.querySelectorAll('.nb').forEach(b=>b.classList.remove('act'));document.querySelector(`.nb[data-page="${p}"]`).classList.add('act');document.querySelectorAll('.pg').forEach(g=>g.classList.remove('act'));document.getElementById('page'+cap(p)).classList.add('act')}
 
@@ -265,6 +329,13 @@ function seleccionarPaciente(id){
     document.getElementById('citaNombre').value=p.nombre;
     document.getElementById('citaTelefono').value=p.telefono;
     document.getElementById('citaEdad').value=p.edad||'';
+    document.getElementById('citaSangre').value=p.sangre||'';
+    document.getElementById('citaPeso').value=p.peso||'';
+    document.getElementById('citaEstatura').value=p.estatura||'';
+    document.getElementById('citaAlergias').value=p.alergias||'';
+    document.getElementById('citaCirugias').value=p.cirugias||'';
+    document.getElementById('citaMedicamentos').value=p.medicamentos||'';
+    document.getElementById('citaEnfermedades').value=p.enfermedades||'';
     document.getElementById('resultadosPacientes').style.display='none';
     document.getElementById('buscarPacienteCita').value='';
     const ab=document.getElementById('autofillBox');ab.classList.add('show');
@@ -280,6 +351,13 @@ function autocompletarPorTelefono(){
             pacienteSeleccionado=p;
             document.getElementById('citaNombre').value=p.nombre;
             document.getElementById('citaEdad').value=p.edad||'';
+            document.getElementById('citaSangre').value=p.sangre||'';
+            document.getElementById('citaPeso').value=p.peso||'';
+            document.getElementById('citaEstatura').value=p.estatura||'';
+            document.getElementById('citaAlergias').value=p.alergias||'';
+            document.getElementById('citaCirugias').value=p.cirugias||'';
+            document.getElementById('citaMedicamentos').value=p.medicamentos||'';
+            document.getElementById('citaEnfermedades').value=p.enfermedades||'';
             const ab=document.getElementById('autofillBox');ab.classList.add('show');
             document.getElementById('autofillInfo').innerHTML=`<strong>${p.nombre}</strong> · 📱 ${p.telefono}${p.edad?' · 🎂 '+p.edad+' años':''}`;
         }else{
@@ -298,6 +376,13 @@ function reagendarCita(pacId){
     document.getElementById('citaNombre').value=p.nombre;
     document.getElementById('citaTelefono').value=p.telefono;
     document.getElementById('citaEdad').value=p.edad||'';
+    document.getElementById('citaSangre').value=p.sangre||'';
+    document.getElementById('citaPeso').value=p.peso||'';
+    document.getElementById('citaEstatura').value=p.estatura||'';
+    document.getElementById('citaAlergias').value=p.alergias||'';
+    document.getElementById('citaCirugias').value=p.cirugias||'';
+    document.getElementById('citaMedicamentos').value=p.medicamentos||'';
+    document.getElementById('citaEnfermedades').value=p.enfermedades||'';
     const ab=document.getElementById('autofillBox');ab.classList.add('show');
     document.getElementById('autofillInfo').innerHTML=`<strong>${p.nombre}</strong> · 📱 ${p.telefono}${p.edad?' · 🎂 '+p.edad+' años':''}`;
     toast('📋 Paciente cargado, seleccione fecha y hora');
@@ -310,22 +395,50 @@ function confirmarCita(){
     const telefono=document.getElementById('citaTelefono').value.trim();
     const edad=document.getElementById('citaEdad').value;
     const motivo=document.getElementById('citaMotivo').value.trim();
+    
+    // Nuevos campos
+    const sangre=document.getElementById('citaSangre').value;
+    const peso=document.getElementById('citaPeso').value;
+    const estatura=document.getElementById('citaEstatura').value;
+    const alergias=document.getElementById('citaAlergias').value.trim();
+    const cirugias=document.getElementById('citaCirugias').value.trim();
+    const medicamentos=document.getElementById('citaMedicamentos').value.trim();
+    const enfermedades=document.getElementById('citaEnfermedades').value.trim();
+
     if(!selectedDate||!selectedSlot){toast('⚠️ Seleccione fecha y hora');return}
     if(!nombre){toast('⚠️ Ingrese nombre');return}
     if(!telefono){toast('⚠️ Ingrese teléfono');return}
 
     let pac=pacientes.find(p=>p.telefono===telefono);
-    if(!pac){pac={id:'pac_'+Date.now(),nombre,telefono,edad:edad||'',expediente:[],creado:new Date().toISOString()};pacientes.push(pac)}
-    else{pac.nombre=nombre;if(edad)pac.edad=edad}
+    if(!pac){
+        pac={id:'pac_'+Date.now(),nombre,telefono,edad:edad||'',sangre,peso,estatura,alergias,cirugias,medicamentos,enfermedades,expediente:[],creado:new Date().toISOString()};
+        pacientes.push(pac);
+    }else{
+        pac.nombre=nombre;if(edad)pac.edad=edad;
+        if(sangre)pac.sangre=sangre;if(peso)pac.peso=peso;if(estatura)pac.estatura=estatura;
+        if(alergias)pac.alergias=alergias;if(cirugias)pac.cirugias=cirugias;
+        if(medicamentos)pac.medicamentos=medicamentos;if(enfermedades)pac.enfermedades=enfermedades;
+    }
 
     const cita={id:'cita_'+Date.now(),pacienteId:pac.id,nombre,telefono,fecha:selectedDate,hora:selectedSlot,motivo,estado:'pendiente',confirmacion:'pendiente',recordatorioEnviado:false,creado:new Date().toISOString()};
     citas.push(cita);sv();
 
+    let extraInfo = '';
+    if(sangre) extraInfo += `\n🩸 *Sangre:* ${sangre}`;
+    if(peso) extraInfo += `\n⚖️ *Peso:* ${peso} kg`;
+    if(estatura) extraInfo += `\n📏 *Estatura:* ${estatura} cm`;
+    if(alergias) extraInfo += `\n⚠️ *Alergias:* ${alergias}`;
+    if(medicamentos) extraInfo += `\n💊 *Medicamentos:* ${medicamentos}`;
+
     const ff=fmtFecha(selectedDate);
-    const msg=`🩺 *${CFG.dr}*\n📋 *CITA AGENDADA*\n━━━━━━━━━━━━━━━\n👤 *Paciente:* ${nombre}\n📱 *Tel:* ${telefono}${edad?'\n🎂 *Edad:* '+edad+' años':''}\n━━━━━━━━━━━━━━━\n📅 *Fecha:* ${ff.str}\n🕐 *Hora:* ${selectedSlot}\n📝 *Motivo:* ${motivo||'No especificado'}\n━━━━━━━━━━━━━━━\n\n✅ *Para confirmar su cita, responda este mensaje con:*\n👉 *CONFIRMO*\n\n⚠️ Si no confirma, nos comunicaremos con usted por teléfono.\n\n🙏 ${CFG.dr}`;
+    const msg=`🩺 *${CFG.dr}*\n📋 *CITA AGENDADA*\n━━━━━━━━━━━━━━━\n👤 *Paciente:* ${nombre}\n📱 *Tel:* ${telefono}${edad?'\n🎂 *Edad:* '+edad+' años':''}${extraInfo}\n━━━━━━━━━━━━━━━\n📅 *Fecha:* ${ff.str}\n🕐 *Hora:* ${selectedSlot}\n📝 *Motivo:* ${motivo||'No especificado'}\n━━━━━━━━━━━━━━━\n\n✅ *Para confirmar su cita, responda este mensaje con:*\n👉 *CONFIRMO*\n\n⚠️ Si no confirma, nos comunicaremos con usted por teléfono.\n\n🙏 ${CFG.dr}`;
     window.open(`https://wa.me/52${telefono}?text=${encodeURIComponent(msg)}`,'_blank');
 
+    // Limpiar formulario
     document.getElementById('citaNombre').value='';document.getElementById('citaTelefono').value='';document.getElementById('citaEdad').value='';document.getElementById('citaMotivo').value='';
+    document.getElementById('citaSangre').value='';document.getElementById('citaPeso').value='';document.getElementById('citaEstatura').value='';
+    document.getElementById('citaAlergias').value='';document.getElementById('citaCirugias').value='';document.getElementById('citaMedicamentos').value='';document.getElementById('citaEnfermedades').value='';
+    
     document.getElementById('formCita').style.display='none';document.getElementById('autofillBox').classList.remove('show');
     pacienteSeleccionado=null;selectedSlot=null;
     renderSlots(selectedDate);renderCitasProx();renderStats();renderAdmCitas();renderAdmPac();renderConfirmPend();
@@ -364,7 +477,7 @@ function renderConfirmPend(){
     if(!pend.length){c.innerHTML='<div class="es" style="padding:15px"><p style="font-size:13px">✅ Todas las citas están confirmadas</p></div>';return}
     c.innerHTML=pend.map(ct=>{
         const ff=fmtFecha(ct.fecha);
-        return `<div style="padding:12px;border-left:4px solid ${ct.confirmacion==='no_confirmo'?'#e67e22':'var(--gold)'};background:#fafbfc;border-radius:0 10px 10px 0;margin-bottom:8px">
+        return `<div style="padding:12px;border-left:4px solid ${ct.confirmacion==='no_confirmo'?'#e67e22':'var(--gold)'};background:var(--input-bg);border-radius:0 10px 10px 0;margin-bottom:8px">
             <div style="font-weight:700">👤 ${ct.nombre} · 📱 ${ct.telefono}</div>
             <div style="font-size:13px;color:var(--txtl)">📅 ${ff.str} · 🕐 ${ct.hora}</div>
             <div style="font-size:12px;color:${ct.confirmacion==='no_confirmo'?'#e67e22':'var(--gold)'};font-weight:700;margin-top:4px">${ct.confirmacion==='no_confirmo'?'⚠️ NO CONFIRMÓ - Llamar por teléfono':'🟡 Pendiente de confirmación'}</div>
@@ -436,16 +549,35 @@ function verExp(id){
     const c=document.getElementById('expDetalle');c.style.display='block';
     const cp=citas.filter(ct=>ct.pacienteId===id).sort((a,b)=>b.fecha.localeCompare(a.fecha));
     const exp=p.expediente||[];
+    
+    // Construir Tarjeta Clínica
+    let datosClinicos = '';
+    if(p.sangre || p.peso || p.estatura || p.alergias || p.cirugias || p.medicamentos || p.enfermedades) {
+        datosClinicos = `<div class="ct"><i class="fas fa-heartbeat"></i> Datos Clínicos</div>
+        <div class="clinical-grid">
+            ${p.sangre ? `<div class="clinical-item"><strong>🩸 Tipo de Sangre</strong>${p.sangre}</div>` : ''}
+            ${p.peso ? `<div class="clinical-item"><strong>⚖️ Peso</strong>${p.peso} kg</div>` : ''}
+            ${p.estatura ? `<div class="clinical-item"><strong>📏 Estatura</strong>${p.estatura} cm</div>` : ''}
+            ${p.edad ? `<div class="clinical-item"><strong>🎂 Edad</strong>${p.edad} años</div>` : ''}
+            ${p.alergias ? `<div class="clinical-item clinical-full clinical-alert"><strong>⚠️ Alérgico a</strong>${p.alergias}</div>` : ''}
+            ${p.cirugias ? `<div class="clinical-item clinical-full"><strong>🏥 Cirugías previas</strong>${p.cirugias}</div>` : ''}
+            ${p.medicamentos ? `<div class="clinical-item clinical-full"><strong>💊 Medicamentos actuales</strong>${p.medicamentos}</div>` : ''}
+            ${p.enfermedades ? `<div class="clinical-item clinical-full"><strong>🦠 Enfermedades actuales</strong>${p.enfermedades}</div>` : ''}
+        </div>`;
+    }
+
     let eh='';
     if(exp.length){eh=exp.sort((a,b)=>b.fecha.localeCompare(a.fecha)).map(e=>`<div class="re"><div class="rd">📅 ${e.fecha}</div><div class="rn">${e.nota}</div>${e.receta?`<div style="margin-top:6px;font-size:13px;color:var(--sec)"><strong>💊 Receta:</strong> ${e.receta}</div>`:''}</div>`).join('')}
     else{eh='<div class="es"><i class="fas fa-file-medical-alt"></i><p>Sin notas médicas</p></div>'}
     let ch=cp.map(ct=>{const ff=fmtFecha(ct.fecha);return `<div style="padding:8px;border-bottom:1px solid var(--bdr);font-size:13px"><strong>📅 ${ff.str}</strong> · 🕐 ${ct.hora} · <span class="as ${ct.estado==='pendiente'?'pend':ct.estado==='confirmada'?'conf':'canc'}">${ct.estado}</span>${ct.motivo?'<br>📝 '+ct.motivo:''}</div>`}).join('');
+    
     c.innerHTML=`<div class="cd"><div class="eh"><div class="ea">${p.nombre.charAt(0)}</div><div><div style="font-size:18px;font-weight:700;color:var(--pri)">${p.nombre}</div><div style="font-size:13px;color:var(--txtl)">📱 ${p.telefono}${p.edad?' · 🎂 '+p.edad+' años':''} · 🩺 ${cp.length} consulta${cp.length!==1?'s':''}</div></div></div>
     <div style="display:flex;gap:8px;margin-bottom:15px;flex-wrap:wrap">
         <button class="btn bp bs" onclick="abrirNota('${p.id}')"><i class="fas fa-plus"></i> Nota médica</button>
         <button class="btn bg bs" onclick="reagendarCita('${p.id}')"><i class="fas fa-calendar-plus"></i> Reagendar cita</button>
         <button class="btn bw bs" onclick="enviarExpWA('${p.id}')"><i class="fab fa-whatsapp"></i> Enviar resumen</button>
     </div>
+    ${datosClinicos}
     <div class="ct"><i class="fas fa-notes-medical"></i> Notas Médicas</div>${eh}
     <div class="ct" style="margin-top:15px"><i class="fas fa-history"></i> Historial de Citas</div>${ch||'<div class="es"><p>Sin citas</p></div>'}</div>`;
     c.scrollIntoView({behavior:'smooth',block:'start'});
@@ -455,7 +587,16 @@ function enviarExpWA(id){
     const p=pacientes.find(x=>x.id===id);if(!p)return;
     const exp=p.expediente||[];
     let notas=exp.slice(-3).map(e=>`📅 ${e.fecha}: ${e.nota}`).join('\n');
-    const msg=`🩺 *${CFG.dr}*\n📋 *RESUMEN DE EXPEDIENTE*\n━━━━━━━━━━━━━━━\n👤 *Paciente:* ${p.nombre}\n📱 *Tel:* ${p.telefono}${p.edad?'\n🎂 *Edad:* '+p.edad+' años':''}\n━━━━━━━━━━━━━━━\n${notas?'📝 *Últimas notas:*\n'+notas:'Sin notas médicas'}\n━━━━━━━━━━━━━━━\n🙏 ${CFG.dr}`;
+    
+    let datosClinicos = '';
+    if(p.sangre) datosClinicos += `\n🩸 *Sangre:* ${p.sangre}`;
+    if(p.peso) datosClinicos += `\n⚖️ *Peso:* ${p.peso} kg`;
+    if(p.estatura) datosClinicos += `\n📏 *Estatura:* ${p.estatura} cm`;
+    if(p.alergias) datosClinicos += `\n⚠️ *Alergias:* ${p.alergias}`;
+    if(p.medicamentos) datosClinicos += `\n💊 *Medicamentos:* ${p.medicamentos}`;
+    if(p.enfermedades) datosClinicos += `\n🦠 *Enfermedades:* ${p.enfermedades}`;
+
+    const msg=`🩺 *${CFG.dr}*\n📋 *RESUMEN DE EXPEDIENTE*\n━━━━━━━━━━━━━━━\n👤 *Paciente:* ${p.nombre}\n📱 *Tel:* ${p.telefono}${p.edad?'\n🎂 *Edad:* '+p.edad+' años':''}${datosClinicos}\n━━━━━━━━━━━━━━━\n${notas?'📝 *Últimas notas:*\n'+notas:'Sin notas médicas'}\n━━━━━━━━━━━━━━━\n🙏 ${CFG.dr}`;
     window.open(`https://wa.me/52${p.telefono}?text=${encodeURIComponent(msg)}`,'_blank');
 }
 
@@ -523,12 +664,12 @@ function renderAdmPac(){
     if(!f.length){c.innerHTML='<div class="es"><p>No hay pacientes</p></div>';return}
     c.innerHTML=f.map(p=>{
         const nc=citas.filter(ct=>ct.pacienteId===p.id).length,nn=(p.expediente||[]).length;
-        return `<div style="padding:10px;border-bottom:1px solid var(--bdr);display:flex;justify-content:space-between;align-items:center"><div><strong>👤 ${p.nombre}</strong><br><small style="color:var(--txtl)">📱 ${p.telefono}${p.edad?' · 🎂 '+p.edad+' años':''} · 🩺 ${nc} citas · 📋 ${nn} notas</small></div><div style="display:flex;gap:5px"><button style="background:var(--sec);color:#fff;border:none;border-radius:8px;padding:5px 10px;font-size:11px;cursor:pointer" onclick="verExpAdm('${p.id}')">📋</button><button style="background:var(--dng);color:#fff;border:none;border-radius:8px;padding:5px 10px;font-size:11px;cursor:pointer" onclick="elimPac('${p.id}')">✕</button></div></div>`;
+        return `<div style="padding:10px;border-bottom:1px solid var(--bdr);display:flex;justify-content:space-between;align-items:center"><div><strong>👤 ${p.nombre}</strong><br><small style="color:var(--txtl)">📱 ${p.telefono}${p.edad?' · 🎂 '+p.edad+' años':''}${p.sangre?' · 🩸 '+p.sangre:''} · 🩺 ${nc} citas · 📋 ${nn} notas</small></div><div style="display:flex;gap:5px"><button style="background:var(--sec);color:#fff;border:none;border-radius:8px;padding:5px 10px;font-size:11px;cursor:pointer" onclick="verExpAdm('${p.id}')">📋</button><button style="background:var(--dng);color:#fff;border:none;border-radius:8px;padding:5px 10px;font-size:11px;cursor:pointer" onclick="elimPac('${p.id}')">✕</button></div></div>`;
     }).join('');
 }
 
 function verExpAdm(id){irPage('expediente');const p=pacientes.find(x=>x.id===id);if(p){document.getElementById('searchExp').value=p.nombre;buscarExp();setTimeout(()=>verExp(id),200)}}
-function elimPac(id){if(!confirm('¿Eliminar paciente?'))return;citas=citas.filter(c=>c.pacienteId!==id);pacientes=pacientes.filter(p=>p.id!==id);sv();renderAdmPac();renderAdmCitas();renderCitasProx();renderStats();renderConfirmPend();toast('🗑️ Eliminado')}
+function elimPac(id){if(!confirm('¿Eliminar paciente y sus citas?'))return;citas=citas.filter(c=>c.pacienteId!==id);pacientes=pacientes.filter(p=>p.id!==id);sv();renderAdmPac();renderAdmCitas();renderCitasProx();renderStats();renderConfirmPend();toast('🗑️ Eliminado')}
 function limpiarDatos(){if(!confirm('⚠️ ¿Eliminar TODO?'))return;citas=[];pacientes=[];sv();renderAdmCitas();renderAdmPac();renderCitasProx();renderStats();renderConfirmPend();toast('🗑️ Todo eliminado')}
 function cerrarM(id){document.getElementById(id).classList.remove('open')}
 
@@ -536,6 +677,12 @@ function cerrarM(id){document.getElementById(id).classList.remove('open')}
 document.addEventListener('DOMContentLoaded',function(){
     citas=ld('con_citas',[]);pacientes=ld('con_pac',[]);
     renderDates();renderCitasProx();renderStats();renderAdmCitas();renderAdmPac();renderConfirmPend();
+
+    // Cargar Modo Oscuro Guardado
+    if(localStorage.getItem('darkMode') === 'true'){
+        document.body.classList.add('dark-mode');
+        document.getElementById('darkModeToggle').innerHTML = '<i class="fas fa-sun"></i>';
+    }
 
     document.querySelectorAll('.nb').forEach(b=>b.addEventListener('click',function(){irPage(this.dataset.page)}));
 
