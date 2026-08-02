@@ -261,7 +261,6 @@
 <div class="toast" id="toast"></div>
 
 <script>
-// AQUÍ ESTÁ EL CAMBIO: Se modificó 'dias:14' a 'dias:30'
 const CFG={dr:'Dr. Pedro Hernández',esp:'Medicina General',tel:'2282877441',wa:'522282877441',mS:9,mE:14,aS:16,aE:18,dur:30,pw:'admin123',dias:30};
 let citas=[],pacientes=[],selectedDate=null,selectedSlot=null,pacienteSeleccionado=null,recordatorioPendiente=null;
 
@@ -367,7 +366,7 @@ function autocompletarPorTelefono(){
             document.getElementById('citaMedicamentos').value=p.medicamentos||'';
             document.getElementById('citaEnfermedades').value=p.enfermedades||'';
             const ab=document.getElementById('autofillBox');ab.classList.add('show');
-            document.getElementById('autofillInfo').innerHTML=`<strong>${p.nombre}</strong> · 📱 ${p.telefono}${p.edad?' · 🎂 '+p.edad+' años':''}`;
+            document.getElementById('autofillInfo').innerHTML=`<strong>${p.nombre}</strong> · 📱 ${p.telefono}${p.edad?' · 🎂 '+p.edad+' années':''}`;
         }else{
             pacienteSeleccionado=null;
             document.getElementById('autofillBox').classList.remove('show');
