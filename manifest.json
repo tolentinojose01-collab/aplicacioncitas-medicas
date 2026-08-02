@@ -1,0 +1,16 @@
+{
+  "name": "Dr. Pedro Hernández",
+  "short_name": "Dr. Hernández",
+  "icons": [
+    {
+      "src": "https://i.postimg.cc/gjfcnDN0/descarga-est-toscopio.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0c2d48",
+  "theme_color": "#0c2d48"
+}
